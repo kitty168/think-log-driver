@@ -1,0 +1,11 @@
+{
+    "name": "kitty168/thinkphp_log_driver",
+    "description": "thinkphp_log_driver",
+    "authors": [
+        {
+            "name": "kitty.cheng",
+            "email": "450038893@qq.com"
+        }
+    ],
+    "require": {}
+}
