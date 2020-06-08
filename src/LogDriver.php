@@ -1,10 +1,7 @@
 <?php
 
-namespace think;
+namespace kitty168\thinkphp_log_driver;
 
-use think\App;
-use think\Db;
-use think\facade\Config;
 
 /**
  * 本地化调试输出到文件
