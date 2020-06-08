@@ -12,5 +12,6 @@
         "psr-4": {
             "thinkphp_log_driver\\": "src/"
         }
-    }
+    },
+    "license": "MIT",
 }
