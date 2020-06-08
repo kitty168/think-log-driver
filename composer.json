@@ -18,7 +18,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "think\\log\\driver\\": "src/"
+            "kitty168\\thinkphp_log_driver\\": "src/"
         }
     }
 
