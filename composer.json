@@ -19,7 +19,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "think\\": "src/"
+            "kitty168\\thinkphp_log_driver\\": "src/"
         }
     }
 
