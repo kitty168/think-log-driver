@@ -12,7 +12,7 @@ composer require kitty168/thinkphp_log_driver
 ```
 
 ## 使用
-1. 更改配置
+1. 更改配置  
 在`config/log.php` 中的配置修改
 ``` php
 // 日志记录方式
@@ -29,7 +29,7 @@ composer require kitty168/thinkphp_log_driver
 ],
 ```
 
-2. 创建数据库
+2. 创建数据库  
 用于记录日志的mysql数据表,如果使用mongodb则无需创建
 ``` sql
 CREATE TABLE `log_slow_sql` (
