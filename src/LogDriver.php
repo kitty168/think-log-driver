@@ -1,6 +1,6 @@
 <?php
 
-namespace LogDriver;
+namespace think;
 
 use think\App;
 use think\Db;
