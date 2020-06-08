@@ -1,17 +1,25 @@
 {
     "name": "kitty168/thinkphp_log_driver",
     "description": "thinkphp_log_driver",
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "php": ">=5.4"
+    },
+    "license": "MIT",
     "authors": [
         {
             "name": "kitty.cheng",
             "email": "450038893@qq.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {},
     "autoload": {
         "psr-4": {
             "thinkphp_log_driver\\": "src/"
         }
-    },
-    "license": "MIT",
+    }
+
 }
