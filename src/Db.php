@@ -1,15 +1,17 @@
 <?php
+// +----------------------------------------------------------------------
+// | Author: kitt.cheng <450038893@qq.com>
+// +----------------------------------------------------------------------
 
-namespace kitty168\thinkphp_log_driver;
+namespace think\log\driver;
 
 use think\App;
-use think\Db;
-use think\facade\Config;
 
 /**
- * 本地化调试输出到文件
+ * thinkphp5日志扩展，可以写入到数据库
+ * @package think\log\driver
  */
-class LogDriver
+class Db
 {
     protected $config = [
         'time_format' => 'c',
@@ -48,7 +50,7 @@ class LogDriver
      */
     public function save(array $log = [], $append = false)
     {
-        $this->writeMongo($log);
+        $this->writeDb($log);
         $destination = $this->getMasterLogFile();
 
         $path = dirname($destination);
@@ -110,8 +112,6 @@ class LogDriver
             }
         }
 
-
-
         if (PHP_SAPI == 'cli') {
             $message = $this->parseCliLog($info);
         } else {
@@ -124,13 +124,22 @@ class LogDriver
         return error_log($message, 3, $destination);
     }
 
-    protected function writeMongo($message)
+    protected function writeDb($message)
     {
         if (PHP_SAPI == 'cli') return '';
         if(!isset($message['sql'])) return '';
 
         $log_db_connect = Config::get('log.log_db_connect','default');
-        if(!Config::get('db.'.$log_db_connect)) return '';
+        if(!Config::get('database.'.$log_db_connect)) return '';
+
+        $module = $this->app->request->module();
+        $controller = $this->app->request->controller();
+        $action = $this->app->request->action();
+
+        //忽略操作
+        if(in_array($module.'/'.$controller.'/'.$action,Config::get('log.log_action_filters',[]))){
+            return '';
+        }
 
         $sql = [];
         $runtime_max = 0;
@@ -144,7 +153,7 @@ class LogDriver
                     continue;
                 }
                 $runtime = floatval(substr($v,strrpos($v,'RunTime:')+8,-3));
-                if($runtime >= Config::get('log.slow_sql_time',1)) {
+                if($runtime >= Config::get('log.slow_sql_time',0.5)) {
                     $sql[] = [
                         'db'     => substr($message['sql'][$db_k],37),
                         'sql'     => strstr(substr($v, 8), ' [', true),
@@ -165,87 +174,34 @@ class LogDriver
             'method' => $this->app['request']->method(),
             'host'   => $this->app['request']->host(),
             'uri'    => $this->app['request']->url(),
-            'module' => $this->app->request->module(),
-            'controller' => $this->app->request->controller(),
-            'action' => $this->app->request->action(),
+            'module' => $module,
+            'controller' => $controller,
+            'action' => $action,
             'create_time' => $time,
             'create_date' => date('Y-m-d H:i:s'),
             'runtime' => $runtime_max,
         ];
-        $info['sql_list'] = $sql;
-        $info['sql_source'] = $message['sql'];
-        
+        $info['sql_list'] = json_encode($sql);
+        $info['sql_source'] = json_encode($message['sql']);
+
         $log_table = Config::get('log.log_table','slow_sql');
-        
+
         $msg = 'success';
-        if($connect === 'default'){
+        if($log_db_connect === 'default'){
             try{
                 Db::name($log_table)->insert($info);
-            }catch(\Exception $e){
+            }catch(Exception $e){
                 $msg = $e;
             }
         }else{
             try{
-                Db::connect($log_db_connect)->table($log_table)->insert($info);
-            }catch(\Exception $e){
+                Db::connect($log_db_connect)->name($log_table)->insert($info);
+            }catch(Exception $e){
                 $msg = $e;
             }
         }
         
         return $msg;
-    }
-
-    protected function writeMongo_2($message)
-    {
-        if (PHP_SAPI == 'cli') return '';
-        if(!isset($message['sql'])) return '';
-
-        $sql = [];
-        $db_k = 0;
-        foreach($message['sql'] as $k => $v){
-            $db_k = 0;
-            if(0 === strpos($v,'[ DB ]')) {
-                $db_k = $k;
-            }
-            if(0 === strpos($v,'[ SQL ]')){
-                if(0 === strpos($v,'[ SQL ] SHOW COLUMNS')){
-                    continue;
-                }
-                $runtime = floatval(substr($v,strrpos($v,'RunTime:')+8,-3));
-                if($runtime >= Config::get('log.slow_sql_time',1)) {
-                    $sql[] = [
-                        'db'     => substr($message['sql'][$db_k],37),
-                        'sql'     => strstr(substr($v, 8), ' [', true),
-                        'runtime' => $runtime,
-                    ];
-                }
-
-            }
-        }
-
-        if(!$sql) return '';
-
-        $time = time();
-
-        $info = [
-            'ip'     => $this->app['request']->ip(),
-            'method' => $this->app['request']->method(),
-            'host'   => $this->app['request']->host(),
-            'uri'    => $this->app['request']->url(),
-            'module' => $this->app->request->module(),
-            'controller' => $this->app->request->controller(),
-            'action' => $this->app->request->action(),
-            'create_time' => $time,
-            'create_date' => date('Y-m-d H:i:s'),
-        ];
-        $info['sql_source'] = $message['sql'];
-        $data = [];
-        foreach ($sql as $k=>$v){
-            $data[] = array_merge($info,$v);
-        }
-        unset($info);
-        return Db::connect('mongodb')->table('slow_sql')->insertAll($data);
-
     }
 
     /**
