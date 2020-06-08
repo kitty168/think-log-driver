@@ -3,7 +3,7 @@
 // | Author: kitt.cheng <450038893@qq.com>
 // +----------------------------------------------------------------------
 
-namespace kitty168\thinkphp_log_driver;
+namespace think\log\driver;
 
 use think\App;
 use think\Db;
@@ -11,7 +11,7 @@ use think\facade\Config;
 
 /**
  * thinkphp5日志扩展，可以写入到数据库
- * @package kitty168\thinkphp_log_driver
+ * @package think\log\driver
  */
 class logDb
 {

@@ -1,14 +1,14 @@
-# thinkphp_log_driver
-thinkphp_log_driver
+# think-log-driver
+think-log-driver
 
 ## 依赖
 适用于`thinkphp5.1.*`
 php: >=5.6
 
 ## 安装 
-1. 安装`thinkphp_log_driver`
+1. 安装`think-log-driver`
 ``` sh
-composer require kitty168/thinkphp_log_driver
+composer require kitty168/think-log-driver
 ```
 
 ## 使用
@@ -16,7 +16,7 @@ composer require kitty168/thinkphp_log_driver
 在`config/log.php` 中的配置修改
 ``` php
 // 日志记录方式
-'type'        => 'kitty168\thinkphp_log_driver\logDb',
+'type'        => 'logDb',
 // 大于0.5秒的sql将被记录
 'slow_sql_time' => 0.5,
 // 记录日志的数据库配置，即在database.php中的key

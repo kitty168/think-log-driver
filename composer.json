@@ -1,9 +1,10 @@
 {
-    "name": "kitty168/thinkphp_log_driver",
-    "description": "thinkphp_log_driver",
+    "name": "kitty168/think-log-driver",
+    "description": "require think-log-driver",
     "require": {
         "php": "^5.6.0",
-        "topthink/framework": "~5.1.20"
+        "topthink/think-installer": "~2.0",
+        "topthink/framework": "5.1.*"
     },
     "require-dev": {
         "php": "^5.6.0"
@@ -18,7 +19,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "kitty168\\thinkphp_log_driver\\": "src/"
+            "think\\log\\driver\\": "src/"
         }
     }
 
