@@ -6,6 +6,8 @@
 namespace think\log\driver;
 
 use think\App;
+use think\Db;
+use think\facade\Config;
 
 /**
  * thinkphp5日志扩展，可以写入到数据库
