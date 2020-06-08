@@ -7,5 +7,10 @@
             "email": "450038893@qq.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "thinkphp_log_driver\\": "src/"
+        }
+    }
 }
