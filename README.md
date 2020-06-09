@@ -7,14 +7,14 @@ php: >=5.6
 
 ## 安装 
 1. 安装`think-log-driver`
-``` sh
+```sh
 composer require kitty168/think-log-driver
 ```
 
 ## 使用
 1. 更改配置  
 在`config/log.php` 中的配置修改
-``` php
+```php
 // 日志记录方式
 'type'        => 'LogDb',
 // 大于0.5秒的sql将被记录
@@ -31,7 +31,7 @@ composer require kitty168/think-log-driver
 
 2. 创建数据库  
 用于记录日志的mysql数据表,如果使用mongodb则无需创建
-``` sql
+```sql
 CREATE TABLE `log_slow_sql` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`host` CHAR(200) NOT NULL DEFAULT '',
@@ -54,3 +54,12 @@ ENGINE=InnoDB
 AUTO_INCREMENT=1
 ;
 ```
+
+## 更新日志
+v1.0.3 (2020-6-9)
+---
++ 修复mongoDb存储格式
+
+v1.0.2 (2020-6-8)
+---
++ 更新namespace为`think\log\driver`
