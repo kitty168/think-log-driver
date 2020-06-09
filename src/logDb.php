@@ -13,7 +13,7 @@ use think\facade\Config;
  * thinkphp5日志扩展，可以写入到数据库
  * @package think\log\driver
  */
-class logDb
+class LogDb
 {
     protected $config = [
         'time_format' => 'c',
