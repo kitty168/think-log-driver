@@ -132,7 +132,7 @@ class LogDb
         if(!isset($message['sql'])) return '';
 
         $log_db_connect = Config::get('log.log_db_connect','default');
-        if(!Config::get('database.'.$log_db_connect)) return '';
+        if(!$db_connect = Config::get('database.'.$log_db_connect)) return '';
 
         $module = $this->app->request->module();
         $controller = $this->app->request->controller();
@@ -183,8 +183,13 @@ class LogDb
             'create_date' => date('Y-m-d H:i:s'),
             'runtime' => $runtime_max,
         ];
-        $info['sql_list'] = json_encode($sql);
-        $info['sql_source'] = json_encode($message['sql']);
+        if($db_connect['type'] == '\think\mongo\Connection') {
+            $info['sql_list'] = $sql;
+            $info['sql_source'] = $message['sql'];
+        }else{
+            $info['sql_list'] = json_encode($sql);
+            $info['sql_source'] = json_encode($message['sql']);
+        }
 
         $log_table = Config::get('log.log_table','slow_sql');
 
