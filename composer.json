@@ -16,7 +16,7 @@
             "email": "450038893@qq.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "think\\log\\driver\\": "src/"
