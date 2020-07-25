@@ -56,10 +56,14 @@ AUTO_INCREMENT=1
 ```
 
 ## 更新日志
+v1.0.5 (2020-6-9)
+---
++ php版本修复
+
 v1.0.3 (2020-6-9)
 ---
 + 修复mongoDb存储格式
 
 v1.0.2 (2020-6-8)
 ---
-+ 更新namespace为`think\log\driver`
++ 版本调整
