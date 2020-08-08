@@ -20,6 +20,7 @@ composer require kitty168/think-log-driver
 // 大于0.5秒的sql将被记录
 'slow_sql_time' => 0.5,
 // 记录日志的数据库配置，即在database.php中的key
+// 如果设置该值为'default'，则使用系统数据库的实例
 'log_db_connect' => 'log_db',
 // 记录慢日志查询的数据表名
 'log_table' => 'slow_sql',
